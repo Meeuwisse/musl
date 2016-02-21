@@ -8,7 +8,10 @@ long double tanhl(long double x)
 #elif LDBL_MANT_DIG == 64 && LDBL_MAX_EXP == 16384
 long double tanhl(long double x)
 {
-	union ldshape u = {x};
+	union {
+		long double f;
+		struct{uint64_t m; uint16_t se; uint16_t pad;} i;
+	} u = {.f = x};
 	unsigned ex = u.i.se & 0x7fff;
 	unsigned sign = u.i.se & 0x8000;
 	uint32_t w;
@@ -38,11 +41,5 @@ long double tanhl(long double x)
 		t = -t/(t+2);
 	}
 	return sign ? -t : t;
-}
-#elif LDBL_MANT_DIG == 113 && LDBL_MAX_EXP == 16384
-// TODO: broken implementation to make things compile
-long double tanhl(long double x)
-{
-	return tanh(x);
 }
 #endif

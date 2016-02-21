@@ -8,7 +8,10 @@ long double coshl(long double x)
 #elif LDBL_MANT_DIG == 64 && LDBL_MAX_EXP == 16384
 long double coshl(long double x)
 {
-	union ldshape u = {x};
+	union {
+		long double f;
+		struct{uint64_t m; uint16_t se; uint16_t pad;} i;
+	} u = {.f = x};
 	unsigned ex = u.i.se & 0x7fff;
 	uint32_t w;
 	long double t;
@@ -37,11 +40,5 @@ long double coshl(long double x)
 	/* |x| > log(LDBL_MAX) or nan */
 	t = expl(0.5*x);
 	return 0.5*t*t;
-}
-#elif LDBL_MANT_DIG == 113 && LDBL_MAX_EXP == 16384
-// TODO: broken implementation to make things compile
-long double coshl(long double x)
-{
-	return cosh(x);
 }
 #endif

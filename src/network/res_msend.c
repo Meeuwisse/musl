@@ -32,7 +32,7 @@ int __res_msend_rc(int nqueries, const unsigned char *const *queries,
 	const struct resolvconf *conf)
 {
 	int fd;
-	int timeout, attempts, retry_interval, servfail_retry;
+	int timeout, attempts, retry_interval, servfail_retry = 0;
 	union {
 		struct sockaddr_in sin;
 		struct sockaddr_in6 sin6;
@@ -83,7 +83,7 @@ int __res_msend_rc(int nqueries, const unsigned char *const *queries,
 	 * yield either no reply (indicated by zero length) or an answer
 	 * packet which is up to the caller to interpret. */
 
-	pthread_cleanup_push(cleanup, (void *)(intptr_t)fd);
+	//pthread_cleanup_push(cleanup, (void *)(intptr_t)fd);
 	pthread_setcancelstate(cs, 0);
 
 	/* Convert any IPv4 addresses in a mixed environment to v4-mapped */
@@ -171,7 +171,8 @@ int __res_msend_rc(int nqueries, const unsigned char *const *queries,
 		}
 	}
 out:
-	pthread_cleanup_pop(1);
+	//pthread_cleanup_pop(1);
+    cleanup((void *)(intptr_t)fd);
 
 	return 0;
 }

@@ -9,7 +9,7 @@ long double fabsl(long double x)
 {
 	union ldshape u = {x};
 
-	u.i.se &= 0x7fff;
-	return u.f;
+	u.bits.sign = 0;
+	return u.value;
 }
 #endif

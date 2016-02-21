@@ -26,12 +26,14 @@ char *__strerror_l(int e, locale_t loc)
 	}
 	for (i=0; errid[i] && errid[i] != e; i++);
 	for (s=errmsg; i; s++, i--) for (; *s; s++);
-	return (char *)LCTRANS(s, LC_MESSAGES, loc);
+    // Hack as our locale_impl is way out of sync with musl
+    return (char *) s;
+	//return (char *)LCTRANS(s, LC_MESSAGES, loc);
 }
 
 char *strerror(int e)
 {
-	return __strerror_l(e, CURRENT_LOCALE);
+	return __strerror_l(e, 0);//CURRENT_LOCALE);
 }
 
 weak_alias(__strerror_l, strerror_l);

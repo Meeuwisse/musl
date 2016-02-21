@@ -166,11 +166,12 @@ size_t iconv(iconv_t cd0, char **restrict in, size_t *restrict inb, char **restr
 	int err;
 	unsigned char type = map[-1];
 	unsigned char totype = tomap[-1];
-	locale_t *ploc = &CURRENT_LOCALE, loc = *ploc;
+    // Hack to keep compilation going, we don't have the macros (and isn't used anyway?)
+	//locale_t *ploc = &CURRENT_LOCALE, loc = *ploc;
 
 	if (!in || !*in || !*inb) return 0;
 
-	*ploc = UTF8_LOCALE;
+	//*ploc = UTF8_LOCALE;
 
 	for (; *inb; *in+=l, *inb-=l) {
 		c = *(unsigned char *)*in;
@@ -435,7 +436,7 @@ size_t iconv(iconv_t cd0, char **restrict in, size_t *restrict inb, char **restr
 			break;
 		}
 	}
-	*ploc = loc;
+	//*ploc = loc;
 	return x;
 ilseq:
 	err = EILSEQ;
@@ -450,6 +451,6 @@ starved:
 	x = -1;
 end:
 	errno = err;
-	*ploc = loc;
+	//*ploc = loc;
 	return x;
 }

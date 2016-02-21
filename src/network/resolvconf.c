@@ -4,6 +4,7 @@
 #include <errno.h>
 #include <string.h>
 #include <netinet/in.h>
+#include <sys/socket.h>
 
 int __get_resolv_conf(struct resolvconf *conf, char *search, size_t search_sz)
 {

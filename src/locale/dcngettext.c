@@ -34,7 +34,7 @@ static char *gettextdir(const char *domainname, size_t *dirlen)
 
 char *bindtextdomain(const char *domainname, const char *dirname)
 {
-	static volatile int lock[2];
+	static mutex_t lock;
 	struct binding *p, *q;
 
 	if (!domainname) return 0;
@@ -116,7 +116,7 @@ unsigned long __pleval(const char *, unsigned long);
 
 char *dcngettext(const char *domainname, const char *msgid1, const char *msgid2, unsigned long int n, int category)
 {
-	static struct msgcat *volatile cats;
+/*	static struct msgcat *volatile cats;
 	struct msgcat *p;
 	struct __locale_struct *loc = CURRENT_LOCALE;
 	const struct __locale_map *lm;
@@ -188,9 +188,9 @@ notrans:
 	const char *trans = __mo_lookup(p->map, p->map_size, msgid1);
 	if (!trans) goto notrans;
 
-	/* Non-plural-processing gettext forms pass a null pointer as
+*/	/* Non-plural-processing gettext forms pass a null pointer as
 	 * msgid2 to request that dcngettext suppress plural processing. */
-	if (!msgid2) return (char *)trans;
+/*	if (!msgid2) return (char *)trans;
 
 	if (!p->plural_rule) {
 		const char *rule = "n!=1;";
@@ -231,6 +231,7 @@ notrans:
 		}
 	}
 	return (char *)trans;
+*/ return (char *) ((n == 1) ? msgid1 : msgid2);
 }
 
 char *dcgettext(const char *domainname, const char *msgid, int category)

@@ -1,6 +1,7 @@
 #include <wchar.h>
 #include <stdlib.h>
 #include "internal.h"
+#include <stdio.h>
 
 int wctob(wint_t c)
 {

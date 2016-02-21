@@ -2,7 +2,7 @@
 #include "libc.h"
 
 static FILE *ofl_head;
-static volatile int ofl_lock[2];
+static mutex_t ofl_lock;
 
 FILE **__ofl_lock()
 {
