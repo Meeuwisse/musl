@@ -9,10 +9,7 @@ long double asinhl(long double x)
 /* asinh(x) = sign(x)*log(|x|+sqrt(x*x+1)) ~= x - x^3/6 + o(x^5) */
 long double asinhl(long double x)
 {
-	union {
-		long double f;
-		struct{uint64_t m; uint16_t se; uint16_t pad;} i;
-	} u = {.f = x};
+	union ldshape u = {x};
 	unsigned e = u.i.se & 0x7fff;
 	unsigned s = u.i.se >> 15;
 
@@ -34,5 +31,11 @@ long double asinhl(long double x)
 		FORCE_EVAL(x + 0x1p120f);
 	}
 	return s ? -x : x;
+}
+#elif LDBL_MANT_DIG == 113 && LDBL_MAX_EXP == 16384
+// TODO: broken implementation to make things compile
+long double asinhl(long double x)
+{
+	return asinh(x);
 }
 #endif

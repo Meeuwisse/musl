@@ -4,8 +4,7 @@
 int __signbitl(long double x)
 {
 	union ldshape u = {x};
-//	return u.i.se >> 15;
-	return u.bits.sign;
+	return u.i.se >> 15;
 }
 #elif LDBL_MANT_DIG == 53 && LDBL_MAX_EXP == 1024
 int __signbitl(long double x)
