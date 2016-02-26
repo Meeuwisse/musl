@@ -32,7 +32,7 @@ int __res_msend_rc(int nqueries, const unsigned char *const *queries,
 	const struct resolvconf *conf)
 {
 	int fd;
-	int timeout, attempts, retry_interval, servfail_retry = 0;
+	int timeout, attempts, retry_interval, servfail_retry;
 	union {
 		struct sockaddr_in sin;
 		struct sockaddr_in6 sin6;

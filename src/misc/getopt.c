@@ -17,10 +17,10 @@ void __getopt_msg(const char *a, const char *b, const char *c, size_t l)
 	FILE *f = stderr;
 	//b = __lctrans_cur(b);
 	flockfile(f);
-	if(fputs(a, f)>=0
+	fputs(a, f)>=0
 	&& fwrite(b, strlen(b), 1, f)
 	&& fwrite(c, 1, l, f)==l
-	&& putc('\n', f));
+	&& putc('\n', f);
 	funlockfile(f);
 }
 
